@@ -1,0 +1,12 @@
+/* Estilo para sombrear la fila seleccionada */
+.selected-row {
+    background-color: #e2e2e2;
+}
+
+/* Ocultar la columna de hora de salida en pantallas pequeñas */
+@media (max-width: 768px) {
+    .table th:nth-child(3),
+    .table td:nth-child(3) {
+        display: none;
+    }
+}
