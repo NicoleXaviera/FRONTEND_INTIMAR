@@ -65,19 +65,22 @@ export default function EditClient() {
                 <h1 className="m-0">Editar Cliente</h1>
               </div>
               <div className="col-sm-6">
-                <ol className="breadcrumb float-sm-right">
-                  <li className="breadcrumb-item">
-                    <a href="/">Inicio</a>
-                  </li>
-                  <li className="breadcrumb-item active">Clientes</li>
-                </ol>
+              <ol className="breadcrumb float-sm-right">
+                                    <li className="breadcrumb-item">
+                                        <a href="/">Home</a>
+                                    </li>
+                                    <li className="breadcrumb-item">
+                                        <a href="/cliente">Clientes</a>
+                                    </li>
+                                    <li className="breadcrumb-item active">Editar cliente</li>
+                                </ol>
               </div>
             </div>
           </div>
         </div>
         <section className="content">
           <div className="container-fluid">
-            <div className="card card-default">
+            <div className="card card-warning">
               <div className="card-header">
                 <h3 className="card-title">Editar Cliente</h3>
               </div>

@@ -44,58 +44,57 @@ export default function ListadoCliente() {
         navigate(`/cliente/edit/${clientId}`); 
     };
 
-
     const handleDelete = async (clientId, clientName) => {
         const result = await Swal.fire({
-          title: "¿Estás seguro?",
-          text: "Esta acción no se puede deshacer",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          cancelButtonText: "Cancelar",
-          confirmButtonText: "Sí, eliminarlo",
+            title: "¿Estás seguro?",
+            text: "Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Sí, eliminarlo",
         });
-    
+
         if (result.isConfirmed) {
-          try {
-            await instance.delete(`/intimar/client`, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-              data: { id: clientId },
-            });
-    
-            // Actualizamos al eliminar
-            const updatedClients = clients.filter(
-              (client) => client.id !== clientId
-            );
-            setClients(updatedClients);
-    
-            toastr.success("Cliente eliminado exitosamente");
-          } catch (error) {
-            toastr.error("Error al eliminar el cliente");
-            console.error("Error deleting client:", error);
-          }
+            try {
+                await instance.delete(`/intimar/client`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: { id: clientId },
+                });
+
+                // Actualizamos al eliminar
+                const updatedClients = clients.filter(
+                    (client) => client.id !== clientId
+                );
+                setClients(updatedClients);
+
+                toastr.success("Cliente eliminado exitosamente");
+            } catch (error) {
+                toastr.error("Error al eliminar el cliente");
+                console.error("Error deleting client:", error);
+            }
         }
-      };
+    };
 
     const handleInputChange = (event) => {
         setSearchValue(event.target.value);
-      };
-    
-      const handleSearch = async () => {
+    };
+
+    const handleSearch = async () => {
         try {
             if (!searchValue) {
                 return;
             }
-    
+
             const response = await instance.post("/intimar/client/findByName", {
                 name: searchValue
             });
-    
+
             const searchResult = response.data.clients;
-            
+
             if (Array.isArray(searchResult) && searchResult.length > 0) {
                 // Si hay resultados de la búsqueda
                 setClients(searchResult);
@@ -108,191 +107,177 @@ export default function ListadoCliente() {
             console.error("Error during search:", error);
         }
     };
-    
-    
 
     return (
         <div className="wrapper">
-        <Navbar />
-        <Aside />
-        <div className="content-wrapper">
-          <div className="content-header">
-            <div className="container-fluid">
-              <div className="row mb-2">
-                <div className="col-sm-6">
-                  <h1 className="m-0">Administración de clientes </h1>
-                </div>
-                <div className="col-sm-6">
-                  <ol className="breadcrumb float-sm-right">
-                    <li className="breadcrumb-item">
-                      <a href="/">Home</a>
-                    </li>
-                    <li className="breadcrumb-item active">Clientes</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-  {/* Barra de arribas*/}
-          <section className="content">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-12">
-                  <div className="card">
-                    <div className="card-header">
-                      <div className="row">
-                        <div className="col-md-6">
-                          <Link to="/cliente/create" className="btn btn-success mb-3">
-                            Agregar Cliente
-                          </Link>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="input-group">
-                            <input
-                              type="search"
-                              className="form-control form-control-lg"
-                              value={searchValue}
-                              onChange={handleInputChange}
-                            />
-                            <div className="input-group-append">
-                              <button className="btn btn-lg btn-default" onClick={handleSearch}>
-                                <i className="fa fa-search" />
-                              </button>
+            <Navbar />
+            <Aside />
+            <div className="content-wrapper">
+                <div className="content-header">
+                    <div className="container-fluid">
+                        <div className="row mb-2">
+                            <div className="col-sm-6">
+                                <h1 className="m-0">Administración de clientes </h1>
                             </div>
-                            {/* Opciones de Vista */}
-                            <div className="d-flex justify-content-end mb-2">
-                                <div className="btn-group" role="group">
-                                    <button
-                                        type="button"
-                                        className={`btn btn-${view === "cards" ? "primary" : "light"}`}
-                                        onClick={() => toggleView("cards")}
-                                    >
-                                        Tarjetas
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`btn btn-${view === "table" ? "primary" : "light"}`}
-                                        onClick={() => toggleView("table")}
-                                    >
-                                        Tabla
-                                    </button>
-                                </div>
+                            <div className="col-sm-6">
+                                <ol className="breadcrumb float-sm-right">
+                                    <li className="breadcrumb-item">
+                                        <a href="/">Home</a>
+                                    </li>
+                                    
+                                    <li className="breadcrumb-item active">Clientes</li>
+                                </ol>
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-
-
-                {/* Contenido según la Vista seleccionada */}
-                {/* TARJETA */}
-                {view === "cards" && (
-                    <section className="content">
-                        <div className="card card-solid">
-                            <div className="card-body pb-0">
-                                <div className="row">
-                                    {clients.map((client) => (
-                                        <div
-                                            className="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column"
-                                            key={client.id}
-                                        >
-                                            <div className="card bg-light d-flex flex-fill">
-                                                <br></br>
-                                                <div className="card-body pt-0">
-                                                    <div className="row">
-                                                        <div className="col-7">
-                                                            <h2 className="lead" style={{fontWeight: "bold"}}><b>{`${client.name} ${client.lastname}`}</b></h2>
-                                                            <ul className="ml-4 mb-0 fa-ul text-muted">
-                                                                <li className="medium" style={{padding: "0.1rem"}}><span className="fa-li"><i className="fas fa-lg fa-envelope" /></span>{`${client.email}`}</li>
-                                                                <li className="medium" style={{padding: "0.1rem"}}><span className="fa-li"><i className="fas fa-lg fa-building" /></span>{`${client.address}`}</li>
-                                                                <li className="medium" style={{padding: "0.1rem"}}><span className="fa-li"><i className="fas fa-lg fa-phone" /></span> {`${client.cellphone}`}</li>
-                                                                <li className="medium" style={{padding: "0.1rem"}}> Alergias : {`${client.allergies == null ? "No hay alergias":client.allergies}`}</li>
-                                                                <li className="medium" style={{padding: "0.1rem"}}> Edad : {`${client.age}`}</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div className="col-5 text-center">
-                                                            <img src="../../dist/img/user1-128x128.jpg" alt="user-avatar" className="img-circle img-fluid" />
-                                                        </div>
-                                                    </div>
+                </div>
+  
+                <section className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <div className="row">
+                                            <div className="col-12 col-sm-3 col-md-4 d-flex align-items-stretch flex-column mt-2">
+                                                <div className="btn-group " role="group">
+                                                    <button
+                                                        type="button"
+                                                        className={`btn btn-${view === "cards" ? "custom-orange" : "light"}`}
+                                                        onClick={() => toggleView("cards")}
+                                                        style={{ backgroundColor: view === "cards" ? "rgb(227, 111, 30)" : "", color: view === "cards" ? "white" : "" }}
+                                                    >
+                                                        Tarjetas
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className={`btn btn-${view === "table" ? "custom-orange" : "light"}`}
+                                                        onClick={() => toggleView("table")}
+                                                        style={{ backgroundColor: view === "table" ? "rgb(227, 111, 30)" : "", color: view === "table" ? "white" : "" }}
+                                                    >
+                                                        Tabla
+                                                    </button>
                                                 </div>
-                                                <div className="card-footer">
-                                                    <div className="text-right">
-                                                        <a href="/" className="btn btn-sm bg-teal">
-                                                            <i className="fas fa-comments"/> 
-                                                        </a>
-                                                        {/* <a href="/" className="btn btn-sm btn-primary">
-                                                            <i className="fas fa-user"/> Ver detalles
-                                                        </a> */}
+                                            </div>
+                                            <div className="col-md-8 mt-2">
+                                                <div className="input-group">
+                                                    <input
+                                                        type="search"
+                                                        className="form-control form-control-lg"
+                                                        value={searchValue}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-lg btn-default mr-4" onClick={handleSearch}>
+                                                            <i className="fa fa-search" />
+                                                        </button>
+                                                        <Link to="/cliente/create" className="btn btn-success mb-8">
+                                                            Agregar Cliente
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    ))}
+                                    </div>
+                                    
+                                    {view === "cards" && (
+                                        <section className="content">
+                                            <div className="card card-solid">
+                                                <div className="card-body pb-0">
+                                                    <div className="row">
+                                                        {clients.map((client) => (
+                                                            <div
+                                                                className="col-6 col-sm-6 col-md-4 d-flex align-items-stretch flex-column"
+                                                                key={client.id}
+                                                            >
+                                                                <div className="card bg-light d-flex flex-fill">
+                                                                    <br></br>
+                                                                    <div className="card-body pt-0">
+                                                                        <div className="row">
+                                                                            <div className="col-12">
+                                                                                <h2 className="lead" style={{fontWeight: "bold"}}><b>{`${client.name} ${client.lastname}`}</b></h2>
+                                                                                <ul className="ml-4 mb-0 fa-ul text-muted">
+                                                                                    <li className="medium" style={{padding: "0.1rem"}}><span className="fa-li"><i className="fas fa-lg fa-envelope" /></span>{`${client.email}`}</li>
+                                                                                    <li className="medium" style={{padding: "0.1rem"}}><span className="fa-li"><i className="fas fa-lg fa-phone" /></span> {`${client.cellphone}`}</li>
+                                                                                    <li className="medium" style={{padding: "0.1rem"}}><span className="fa-li"> <i className="fas fa-lg fa-exclamation-circle" /></span>  Alergias : {`${client.allergies == null ? "No hay alergias":client.allergies}`}</li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="card-footer">
+                                                                        <div className="text-right">
+                                                                            <a href="/" className="btn btn-sm" style={{ backgroundColor: 'rgb(0, 147, 144)', color: 'white' }} onClick={() => handleEdit(client.id)}>
+                                                                                <i className="fas fa-user"/> Ver detalles
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    )}
+
+                                    {view === "table" && (
+                                        <section className="content">
+                                            <div className="card">
+                                                <div className="card-header">
+                                                    <h3 className="card-title">Lista de Clientes</h3>
+                                                </div>
+                                                <div className="card-body">
+                                                    <div className="table-responsive">
+                                                        {clients.length > 0 ? (
+                                                            <table className="table table-bordered table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ID</th>
+                                                                        <th>Nombre</th>
+                                                                        <th>Correo Electrónico</th>
+                                                                        <th>Teléfono</th>
+                                                                        <th>Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {clients.map((client) => (
+                                                                        <tr key={client.id}>
+                                                                            <td>{client.id}</td>
+                                                                            <td>{`${client.name} ${client.lastname}`}</td>
+                                                                            <td>{client.email}</td>
+                                                                            <td>{client.cellphone}</td>
+                                                                            <td>
+                                                                                <button
+                                                                                    className="btn btn-info btn-sm mr-2"
+                                                                                    onClick={() => handleEdit(client.name)} 
+                                                                                >
+                                                                                    Editar
+                                                                                </button>
+                                                                                <button
+                                                                                    className="btn btn-danger btn-sm"
+                                                                                    onClick={() => handleDelete(client.id)}
+                                                                                >
+                                                                                    Eliminar
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                </tbody>
+                                                            </table>
+                                                        ) : (
+                                                            <p>No se encontraron clientes con el nombre: {searchValue}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    )}
+
                                 </div>
                             </div>
                         </div>
-                    </section>
-                )}
-
-                {/* TABLA */}
-
-                {view === "table" && (
-                    <section className="content">
-                        <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Lista de Clientes</h3>
-                            </div>
-                            <div className="card-body">
-                                {clients.length > 0 ? (
-                                    <table className="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Correo Electrónico</th>
-                                                <th>Dirección</th>
-                                                <th>Teléfono</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {clients.map((client) => (
-                                                <tr key={client.id}>
-                                                    <td>{`${client.name} ${client.lastname}`}</td>
-                                                    <td>{client.email}</td>
-                                                    <td>{client.address}</td>
-                                                    <td>{client.cellphone}</td>
-                                                    <td>
-                                                        <button
-                                                            className="btn btn-warning btn-sm mr-2"
-                                                            onClick={() => handleEdit(client.id)} 
-                                                        >
-                                                            Editar
-                                                        </button>
-                                                        <button
-                                                            className="btn btn-danger btn-sm"
-                                                            onClick={() => handleDelete(client.id)}
-                                                        >
-                                                            Eliminar
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                ) : (
-                                    <p>No se encontraron clientes con el nombre: {searchValue}</p>
-                                )}
-                            </div>
-                        </div>
-                    </section>
-                )}
-
-            </div>
-            </div>
-            </div>
-            </div>
-            </section>
+                    </div>
+                </section>
             </div>
             <Footer />
         </div>

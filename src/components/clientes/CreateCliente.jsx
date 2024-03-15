@@ -66,19 +66,23 @@ export default function CreateCliente() {
                 <h1 className="m-0">Crear Cliente</h1>
               </div>
               <div className="col-sm-6">
-                <ol className="breadcrumb float-sm-right">
-                  <li className="breadcrumb-item">
-                    <a href="/">Inicio</a>
-                  </li>
-                  <li className="breadcrumb-item active">Clientes</li>
-                </ol>
+              <ol className="breadcrumb float-sm-right">
+                    <li className="breadcrumb-item">
+                      <a href="/">Home</a>
+                    </li>
+                    <li className="breadcrumb-item active">
+                    <a href="/cliente">Clientes</a>
+                    </li>
+                    <li className="breadcrumb-item active">Crear cliente</li>
+
+                  </ol>
               </div>
             </div>
           </div>
         </div>
         <section className="content">
           <div className="container-fluid">
-            <div className="card card-default">
+            <div className="card card-info">
               <div className="card-header">
                 <h3 className="card-title">Crear Cliente</h3>
               </div>
@@ -100,19 +104,19 @@ export default function CreateCliente() {
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="apellido">Apellido:</label>
+                        <label htmlFor="email">Correo Electrónico:</label>
                         <input
-                          type="text"
+                          type="email"
                           className="form-control"
-                          id="apellido"
-                          placeholder="Ingrese el apellido del cliente"
-                          name="lastname"
-                          value={client.lastname}
+                          id="email"
+                          placeholder="Ingrese el correo electrónico del cliente"
+                          name="email"
+                          value={client.email}
                           onChange={handleChange}
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label htmlFor="edad">Edad:</label>
                         <input
                           type="number"
@@ -124,7 +128,7 @@ export default function CreateCliente() {
                           onChange={handleChange}
                           required
                         />
-                      </div>
+                      </div> */}
                       <div className="form-group">
                         <label htmlFor="telefono">Teléfono:</label>
                         <input
@@ -138,22 +142,25 @@ export default function CreateCliente() {
                           required
                         />
                       </div>
+
                     </div>
                     <div className="col-md-6">
+
                       <div className="form-group">
-                        <label htmlFor="email">Correo Electrónico:</label>
+                        <label htmlFor="apellido">Apellido:</label>
                         <input
-                          type="email"
+                          type="text"
                           className="form-control"
-                          id="email"
-                          placeholder="Ingrese el correo electrónico del cliente"
-                          name="email"
-                          value={client.email}
+                          id="apellido"
+                          placeholder="Ingrese el apellido del cliente"
+                          name="lastname"
+                          value={client.lastname}
                           onChange={handleChange}
                           required
                         />
                       </div>
-                      <div className="form-group">
+                      
+                      {/* <div className="form-group">
                         <label htmlFor="direccion">Dirección:</label>
                         <input
                           type="text"
@@ -165,7 +172,7 @@ export default function CreateCliente() {
                           onChange={handleChange}
                           required
                         />
-                      </div>
+                      </div> */}
                       <div className="form-group">
                         <label htmlFor="alergias">Alergias:</label>
                         <input
@@ -181,24 +188,25 @@ export default function CreateCliente() {
                     </div>
                   </div>
 
-                  <div className="form-group d-flex justify-content-end">
+
+                </form>
+              </div>
+              <div className="card-footer">
+              <div className="form-group d-flex justify-content-center">
                     <button type="submit" className="btn btn-success mr-2">
                       Crear Cliente
                     </button>
-                    <button type="button" className="btn btn-primary mr-2" onClick={handleReservaClick}>
+                    <button type="button" className="btn btn-warning mr-2" onClick={handleReservaClick}>
                       Hacer Reserva
                     </button>
                     {/* Botón de regresar al listado de clientes */}
-                    <Link to="/cliente" className="btn btn-secondary">
+                    <Link to="/cliente" className="btn btn-info">
                       Regresar
                     </Link>
                   </div>
 
                   <ToastContainer />
-
-                </form>
               </div>
-              <div className="card-footer"></div>
             </div>
           </div>
         </section>

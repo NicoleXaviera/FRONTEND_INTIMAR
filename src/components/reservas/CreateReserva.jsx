@@ -125,7 +125,7 @@ export default function CreateReserva() {
                   <li className="breadcrumb-item">
                     <a href="/">Home</a>
                   </li>
-                  <li className="breadcrumb-item active">Clientes</li>
+                  <li className="breadcrumb-item active">Reservas</li>
                 </ol>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function CreateReserva() {
           <div className="container-fluid">
             <div className="row">
               <div className="col-md-12">
-                <div className="card card-primary">
+                <div className="card card-info">
                   <div className="card-header">
                     <h3 className="card-title">Ingrese los siguientes datos:</h3>
                   </div>
@@ -312,7 +312,7 @@ export default function CreateReserva() {
                       </div>
                     </div>
                     <div className="card-footer">
-                      <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                      <button type="submit" className="btn btn-success" disabled={isSubmitting}>
                         Crear Reserva
                       </button>
                     </div>
