@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import instance from "../../interceptors/axios";
 import { useParams, useNavigate } from "react-router-dom";
+import instance from "../../interceptors/axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar";
 import Aside from "../Aside";
 import Footer from "../Footer";
@@ -19,8 +21,8 @@ export default function EditClient() {
         });
         setClient(data.clients[0]);
         setIsLoading(false);
-      } catch (e) {
-        console.log(e, "not auth");
+      } catch (error) {
+        console.log(error, "not auth");
       }
     };
 
@@ -45,11 +47,18 @@ export default function EditClient() {
 
       // Redirige a la página de clientes después de la edición exitosa
       navigate("/cliente", { replace: true });
+
+      // Notificación toast de éxito
+      toast.success("Cliente agregado correctamente", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } catch (error) {
-      console.error("Error updating client", error);
+      console.error("Error creating client", error);
+      toast.error("Error al actualizar el cliente", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -65,15 +74,15 @@ export default function EditClient() {
                 <h1 className="m-0">Editar Cliente</h1>
               </div>
               <div className="col-sm-6">
-              <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item">
-                                        <a href="/">Home</a>
-                                    </li>
-                                    <li className="breadcrumb-item">
-                                        <a href="/cliente">Clientes</a>
-                                    </li>
-                                    <li className="breadcrumb-item active">Editar cliente</li>
-                                </ol>
+                <ol className="breadcrumb float-sm-right">
+                  <li className="breadcrumb-item">
+                    <a href="/">Home</a>
+                  </li>
+                  <li className="breadcrumb-item">
+                    <a href="/cliente">Clientes</a>
+                  </li>
+                  <li className="breadcrumb-item active">Editar cliente</li>
+                </ol>
               </div>
             </div>
           </div>
@@ -96,7 +105,7 @@ export default function EditClient() {
                           id="nombre"
                           placeholder="Ingrese el nombre del cliente"
                           name="name"
-                          value={client.name}
+                          value={client.name || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -108,7 +117,7 @@ export default function EditClient() {
                           id="apellido"
                           placeholder="Ingrese el apellido del cliente"
                           name="lastname"
-                          value={client.lastname}
+                          value={client.lastname || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -120,7 +129,7 @@ export default function EditClient() {
                           id="edad"
                           placeholder="Ingrese la edad del cliente"
                           name="age"
-                          value={client.age}
+                          value={client.age || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -132,7 +141,7 @@ export default function EditClient() {
                           id="telefono"
                           placeholder="Ingrese el número de teléfono del cliente"
                           name="cellphone"
-                          value={client.cellphone}
+                          value={client.cellphone || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -146,7 +155,7 @@ export default function EditClient() {
                           id="email"
                           placeholder="Ingrese el correo electrónico del cliente"
                           name="email"
-                          value={client.email}
+                          value={client.email || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -158,7 +167,7 @@ export default function EditClient() {
                           id="direccion"
                           placeholder="Ingrese la dirección del cliente"
                           name="address"
-                          value={client.address}
+                          value={client.address || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -170,7 +179,7 @@ export default function EditClient() {
                           id="alergias"
                           placeholder="Ingrese las alergias del cliente"
                           name="allergies"
-                          value={client.allergies}
+                          value={client.allergies || ""}
                           onChange={handleChange}
                         />
                       </div>
@@ -182,11 +191,11 @@ export default function EditClient() {
                       Actualizar Cliente
                     </button>
                   </div>
+                  <ToastContainer />
                 </form>
+               
               </div>
-              <div className="card-footer">
-            
-              </div>
+              <div className="card-footer"></div>
             </div>
           </div>
         </section>

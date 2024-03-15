@@ -3,7 +3,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import instance from "../../interceptors/axios";
-// import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import Aside from "../Aside";
 import Footer from "../Footer";
@@ -18,9 +17,7 @@ export default function CreateCliente() {
     address: "",
     allergies: "",
   });
-
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     setClient({
       ...client,
@@ -37,11 +34,20 @@ export default function CreateCliente() {
         },
       });
 
-      toast.success("Cliente creado correctamente", {
+      // Mensaje de éxito usando react-toastify
+      toast.success("Cliente agregado correctamente", {
         position: toast.POSITION.TOP_RIGHT,
       });
 
-      // navigate("/cliente", { replace: true });
+      setClient({
+        name: "",
+        lastname: "",
+        age: 0,
+        email: "",
+        cellphone: "",
+        address: "",
+        allergies: "",
+      });
     } catch (error) {
       console.error("Error creating client", error);
       toast.error("Error al crear el cliente", {
@@ -104,32 +110,6 @@ export default function CreateCliente() {
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="email">Correo Electrónico:</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="email"
-                          placeholder="Ingrese el correo electrónico del cliente"
-                          name="email"
-                          value={client.email}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-                      {/* <div className="form-group">
-                        <label htmlFor="edad">Edad:</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="edad"
-                          placeholder="Ingrese la edad del cliente"
-                          name="age"
-                          value={client.age}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div> */}
-                      <div className="form-group">
                         <label htmlFor="telefono">Teléfono:</label>
                         <input
                           type="tel"
@@ -142,24 +122,6 @@ export default function CreateCliente() {
                           required
                         />
                       </div>
-
-                    </div>
-                    <div className="col-md-6">
-
-                      <div className="form-group">
-                        <label htmlFor="apellido">Apellido:</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="apellido"
-                          placeholder="Ingrese el apellido del cliente"
-                          name="lastname"
-                          value={client.lastname}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-                      
                       {/* <div className="form-group">
                         <label htmlFor="direccion">Dirección:</label>
                         <input
@@ -173,6 +135,7 @@ export default function CreateCliente() {
                           required
                         />
                       </div> */}
+                      
                       <div className="form-group">
                         <label htmlFor="alergias">Alergias:</label>
                         <input
@@ -185,14 +148,53 @@ export default function CreateCliente() {
                           onChange={handleChange}
                         />
                       </div>
+
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="apellido">Apellido:</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="apellido"
+                          placeholder="Ingrese el apellido del cliente"
+                          name="lastname"
+                          value={client.lastname}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="email">Correo Electrónico:</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          placeholder="Ingrese el correo electrónico del cliente"
+                          name="email"
+                          value={client.email}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="edad">Edad:</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="edad"
+                          placeholder="Ingrese la edad del cliente"
+                          name="age"
+                          value={client.age}
+                          onChange={handleChange}
+                          
+                        />
+                      </div>
+
                     </div>
                   </div>
-
-
-                </form>
-              </div>
-              <div className="card-footer">
-              <div className="form-group d-flex justify-content-center">
+                  
+                  <div className="form-group d-flex justify-content-center mt-3">
                     <button type="submit" className="btn btn-success mr-2">
                       Crear Cliente
                     </button>
@@ -204,15 +206,16 @@ export default function CreateCliente() {
                       Regresar
                     </Link>
                   </div>
-
+                  {/* Mensaje de éxito con react-toastify */}
                   <ToastContainer />
+                </form>
               </div>
+              <div className="card-footer"></div>
             </div>
           </div>
         </section>
       </div>
       <Footer />
-      <ToastContainer />
     </div>
   );
 }
