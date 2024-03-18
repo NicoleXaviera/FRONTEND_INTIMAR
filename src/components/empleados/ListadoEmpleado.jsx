@@ -34,7 +34,11 @@ export default function ListadoEmpleado() {
     }, []);
 
     const generatePDF = useReactToPrint({
-        content: () => componentPDF.current,
+        content: () => {
+            const content = document.querySelector('.card-body');
+            console.log(content); // Verifica si 'content' contiene el contenido correcto
+            return content;
+        },
         documentTitle: "Clients",
     });
 
